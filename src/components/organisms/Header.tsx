@@ -2,16 +2,6 @@
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
 
-const HeaderWrapper = styled.header`
-  background: ${({ theme }) => theme.colors.primary};
-  color: ${({ theme }) => theme.colors.white};
-  padding: ${({ theme }) => theme.spacing(2)};
-  display: flex; justify-content: space-between; align-items: center;
-`;
-const NavLinks = styled.nav`
-  a { color: ${({ theme }) => theme.colors.white}; margin-left: 16px; text-decoration: none; &:hover { text-decoration: underline; } }
-`;
-
 export function Header() {
   return (
     <HeaderWrapper>
@@ -23,3 +13,26 @@ export function Header() {
     </HeaderWrapper>
   );
 }
+
+const HeaderWrapper = styled.header`
+  position: sticky;
+  top: 0;
+  z-index: 1000; /* Make sure it's above other content */
+  background: ${({ theme }) => theme.colors.primary};
+  color: ${({ theme }) => theme.colors.white};
+  padding: ${({ theme }) => theme.spacing(2)};
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const NavLinks = styled.nav`
+  a {
+    color: ${({ theme }) => theme.colors.white};
+    margin-left: 16px;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+`;
