@@ -2,13 +2,33 @@
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
 
+// icons
+import { MdRestaurantMenu } from "react-icons/md";
+
+
+// jotai
+// import { useAtomValue } from "jotai";
+// import { cartAtom } from "../../store/cartAtoms";
+
+// components
+import { CartIconWithBadge } from "../atoms/CartIconWithBadge";
+
 export function Header() {
+
+  // jotai
+  // const cart = useAtomValue(cartAtom);
+
   return (
     <HeaderWrapper>
       <h1>CoffeeTime ☕</h1>
       <NavLinks>
-        <Link to="/">Menu</Link>
-        <Link to="/payment">Cart</Link>
+        <Link to="/" title="Menu">
+          <MdRestaurantMenu size={24} />
+        </Link>
+        <Link to="/payment" title="Cart">
+        {/* Cart({cart.length}) */}
+          <CartIconWithBadge />
+        </Link>
       </NavLinks>
     </HeaderWrapper>
   );
@@ -27,10 +47,17 @@ const HeaderWrapper = styled.header`
 `;
 
 const NavLinks = styled.nav`
+  display: flex;
+  align-items: center;
+  gap: 16px; /* space between links */
+
   a {
+    display: flex;
+    align-items: center;
     color: ${({ theme }) => theme.colors.white};
-    margin-left: 16px;
     text-decoration: none;
+    gap: 6px; /* space between icon and text (if text is added) */
+
     &:hover {
       text-decoration: underline;
     }

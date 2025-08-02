@@ -47,7 +47,7 @@ export default function OrderConfirmationPage() {
       const updatedCart = [...cart, item];
       setCart(updatedCart);
       localStorage.setItem("cart", JSON.stringify(updatedCart));
-      navigate("/payment");
+      navigate("/");
     }
   };
 

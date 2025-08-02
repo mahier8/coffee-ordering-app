@@ -28,7 +28,7 @@ export default function LandingPage() {
   return (
     <Layout>
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
-        <h1 style={{ textAlign: "center", marginBottom: "20px" }}>Our Coffee Menu</h1>
+        <h1 style={{ textAlign: "center", marginBottom: "20px" }}>Menu</h1>
 
         {/* ✅ Refactored Swiper */}
         <SaleSwiper items={saleItems} onItemClick={(id) => navigate(`/order/${id}`)} />
@@ -63,17 +63,17 @@ const List = styled.div`
   margin-right: auto;
 `;
 
-const ListItem = styled.div`
-  background: #f8f8f8;
-  padding: 15px 20px;
-  border-radius: 10px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-  transition: background 0.2s ease;
+// const ListItem = styled.div`
+//   background: #f8f8f8;
+//   padding: 15px 20px;
+//   border-radius: 10px;
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   cursor: pointer;
+//   transition: background 0.2s ease;
 
-  &:hover {
-    background: #ececec;
-  }
-`;
+//   &:hover {
+//     background: #ececec;
+//   }
+// `;
