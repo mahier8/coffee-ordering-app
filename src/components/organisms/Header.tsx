@@ -20,7 +20,8 @@ export function Header() {
 
   return (
     <HeaderWrapper>
-      <h1>CoffeeTime ☕</h1>
+      <h1>Quick Coffee ☕</h1>
+      {/* <QuickCoffeeLogo src="../../../public/images/QuickCoffeeLogo2.png" /> */}
       <NavLinks>
         <Link to="/" title="Menu">
           <MenuIcon size={28} />
@@ -69,3 +70,8 @@ const MenuIcon = styled(MdRestaurantMenu)`
   // color: white;
   margin-bottom: 3px;
 `;
+
+// const QuickCoffeeLogo = styled.img`
+//   width: 60px;
+//   height: 50px;
+// `;

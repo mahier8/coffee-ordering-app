@@ -1,3 +1,11 @@
 import { atom } from "jotai";
 
-export const cartAtom = atom<{ id: number; name: string; price: number }[]>([]);
+export type CartItem = {
+  id: number;
+  name: string;
+  price: number;
+  image: string;
+  quantity: number; 
+};
+
+export const cartAtom = atom<CartItem[]>([]);

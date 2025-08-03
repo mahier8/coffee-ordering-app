@@ -49,10 +49,27 @@ export default function OrderConfirmationPage() {
 
   const confirmOrder = () => {
     if (item) {
-      const updatedCart = [...cart, item];
+      // Check if the item already exists in the cart
+      const existingItemIndex = cart.findIndex(cartItem => cartItem.id === item.id);
+      let updatedCart;
+
+      if (existingItemIndex !== -1) {
+        // If it exists, increment its quantity
+        updatedCart = cart.map((cartItem, index) =>
+          index === existingItemIndex
+            ? { ...cartItem, quantity: (cartItem.quantity || 1) + 1 }
+            : cartItem
+        );
+      } else {
+        // If it doesn't exist, add it with quantity 1
+        updatedCart = [...cart, { ...item, quantity: 1 }];
+      }
+
+      // Update Jotai state and localStorage
       setCart(updatedCart);
       localStorage.setItem("cart", JSON.stringify(updatedCart));
-      navigate("/");
+
+      navigate("/"); // Go back to landing page
     }
   };
 
