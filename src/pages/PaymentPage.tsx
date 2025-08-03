@@ -6,10 +6,18 @@ import { cartAtom } from "../store/cartAtoms";
 import { useNavigate } from "react-router-dom";
 import { Layout } from "../components/organisms/Layout";
 import { Button } from "../components/atoms/Button";
+import styled from "@emotion/styled";
+import { FaTrash } from "react-icons/fa";
 
 export default function PaymentPage() {
   const [cart, setCart] = useAtom(cartAtom);
   const navigate = useNavigate();
+
+  // Load cart from localStorage on mount
+  useEffect(() => {
+    const saved = localStorage.getItem("cart");
+    if (saved) setCart(JSON.parse(saved));
+  }, []);
 
   useEffect(() => {
     const saved = localStorage.getItem("cart");
@@ -21,6 +29,22 @@ export default function PaymentPage() {
   const discount = subtotal > 20 ? 5 : 0; // Example: $5 discount if subtotal > $20
   const total = subtotal - discount;
 
+  const increaseQty = (id: number) => {
+    setCart(cart.map(item => item.id === id ? { ...item, quantity: item.quantity + 1 } : item));
+  };
+
+  const decreaseQty = (id: number) => {
+    setCart(cart.map(item =>
+      item.id === id && item.quantity > 1
+        ? { ...item, quantity: item.quantity - 1 }
+        : item
+    ));
+  };
+
+  const removeItem = (id: number) => {
+    setCart(cart.filter(item => item.id !== id));
+  };
+
   const confirmPayment = () => {
     localStorage.removeItem("cart");
     setCart([]);
@@ -29,35 +53,44 @@ export default function PaymentPage() {
 
   return (
     <Layout>
-      <div css={css`max-width: 500px; margin: auto;`}>
-        <h2 css={css`text-align: center; margin-bottom: 20px;`}>Your Cart</h2>
+      <PaymentInner>
+        <PaymentHeader>Confirm Your Order</PaymentHeader>
 
         {cart.length === 0 ? (
-          <p css={css`text-align: center;`}>Your cart is empty</p>
+          <NoDataPar>Your cart is empty</NoDataPar>
         ) : (
           <>
             {/* 🛒 Cart Items Section */}
-            <div css={css`
-              background: #fff;
-              padding: 16px;
-              border-radius: 8px;
-              box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-              margin-bottom: 20px;
-            `}>
+            <CartList>
               {cart.map((item, idx) => (
-                <div key={idx} css={cartItemRow}>
-                  <div css={cartItemInfo}>
-                    <img 
+                <CartItemRow key={idx}>
+                  <CartItemInfo>
+                    <CartItemImage 
                       src={`/images/${item.image}`} 
                       alt={item.name} 
-                      css={cartItemImage} 
                     />
-                    <span>{item.name} x {item.quantity}</span>
-                  </div>
-                  <span>${item.price.toFixed(2)}</span>
-                </div>
+                    <span>{item.name} 
+                      {/* <QuantitySpan> x{item.quantity}</QuantitySpan> */}
+                    </span>
+                  </CartItemInfo>
+
+                    <ItemActions>
+
+                      <QtyControls>
+                        <button onClick={() => decreaseQty(item.id)}>-</button>
+                          <QuantitySpan>{item.quantity}</QuantitySpan>
+                        <button onClick={() => increaseQty(item.id)}>+</button>
+                      </QtyControls>
+                      <span>${item.price.toFixed(2)}</span>
+                      <DeleteButton onClick={() => removeItem(item.id)}>
+                        <FaTrash />
+                      </DeleteButton>
+
+                    </ItemActions>
+
+                </CartItemRow>
               ))}
-            </div>
+            </CartList>
 
             {/* 💰 Payment Summary Section */}
             <div css={css`
@@ -75,12 +108,34 @@ export default function PaymentPage() {
             <Button onClick={confirmPayment} fullWidth>Confirm Payment</Button>
           </>
         )}
-      </div>
+      </PaymentInner>
     </Layout>
   );
 }
 
-const cartItemRow = css`
+const PaymentInner = styled.div`
+  max-width: 500px; 
+  margin: auto;
+`;
+
+const PaymentHeader = styled.h2`
+  text-align: center; 
+  margin-bottom: 20px;
+`;
+
+const NoDataPar = styled.h2`
+  text-align: center;
+`;
+
+const CartList = styled.div`
+  background: #fff;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+`;
+
+const CartItemRow = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -88,13 +143,13 @@ const cartItemRow = css`
   border-bottom: 1px solid #eee;
 `;
 
-const cartItemInfo = css`
+const CartItemInfo = styled.div`
   display: flex;
   align-items: center;
   gap: 12px;
 `;
 
-const cartItemImage = css`
+const CartItemImage = styled.img`
   width: 40px;
   height: 40px;
   object-fit: cover;
@@ -115,4 +170,49 @@ const summaryRowStrong = css`
   margin-top: 12px;
   font-size: 18px;
   font-weight: bold;
+`;
+
+const QuantitySpan = styled.span`
+  font-weight: bold;
+`;
+
+const ItemActions = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-left: auto; /* Push actions to the far right */
+`;
+
+const QtyControls = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  button {
+    width: 24px;
+    height: 24px;
+    border: 1px solid #ccc;
+    background: white;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 0;
+    border-radius: 50%;
+    font-weight: bold;
+
+    &:hover {
+      background: #eee;
+    }
+  }
+`;
+
+const DeleteButton = styled.button`
+  border: none;
+  background: transparent;
+  color: #6B4F4F;
+  cursor: pointer;
+  font-size: 18px;
+
+  &:hover {
+    color:rgb(73, 55, 55);
+  }
 `;
