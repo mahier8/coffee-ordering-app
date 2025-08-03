@@ -23,7 +23,7 @@ export function Header() {
       <h1>CoffeeTime ☕</h1>
       <NavLinks>
         <Link to="/" title="Menu">
-          <MdRestaurantMenu size={24} />
+          <MenuIcon size={28} />
         </Link>
         <Link to="/payment" title="Cart">
         {/* Cart({cart.length}) */}
@@ -62,4 +62,10 @@ const NavLinks = styled.nav`
       text-decoration: underline;
     }
   }
+`;
+
+const MenuIcon = styled(MdRestaurantMenu)`
+  // font-size: 28px;
+  // color: white;
+  margin-bottom: 3px;
 `;

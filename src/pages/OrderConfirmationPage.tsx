@@ -5,6 +5,11 @@ import { useAtom } from "jotai";
 import { cartAtom } from "../store/cartAtoms";
 import { Layout } from "../components/organisms/Layout";
 import { Button } from "../components/atoms/Button";
+import styled from "@emotion/styled";
+
+// icon
+import { FaArrowLeft } from "react-icons/fa"; // import back arrow icon
+
 
 const items = [
   { id: 1, name: "Espresso (Sale)", price: 2.5, image: "espresso_image.jpeg" },
@@ -51,10 +56,16 @@ export default function OrderConfirmationPage() {
     }
   };
 
+  // to og bcak to the previous page
+  const goBack = () => {
+    navigate(-1);
+  };
+
   if (!item) return <p>Item not found</p>;
 
   return (
     <Layout>
+    <FaArrowLeftIcon onClick={goBack} />
       <div css={css`text-align: center; max-width: 400px; margin: 40px auto;`}>
         <h4>Confirm Your Order</h4>
         <h2 style={{ margin: "20px 0" }}>{item.name} - ${item.price}</h2>
@@ -64,3 +75,7 @@ export default function OrderConfirmationPage() {
     </Layout>
   );
 }
+
+const FaArrowLeftIcon = styled(FaArrowLeft)`
+  cursor: pointer;
+`;
