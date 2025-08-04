@@ -7,30 +7,6 @@ import "swiper/css/navigation";
 import { useState } from "react";
 import { Card } from "./Card";
 
-const NavButton = styled.button<{ position: "left" | "right"; hidden?: boolean }>`
-  position: absolute;
-  top: 50%;
-  ${({ position }) => (position === "left" ? "left: -50px;" : "right: -50px;")}
-  transform: translateY(-50%);
-  background: #6B4F4F;
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  cursor: pointer;
-  z-index: 10;
-  opacity: ${({ hidden }) => (hidden ? 0 : 1)};
-  pointer-events: ${({ hidden }) => (hidden ? "none" : "auto")};
-  transition: opacity 0.4s ease, transform 0.2s ease;
-
- /* Hover effect for better UI */
-  &:hover {
-    transform: translateY(-50%) scale(1.1);
-    background: #5a3f3f;
-  }
-`;
-
 export const SaleSwiper = ({ items, onItemClick }: { items: any[]; onItemClick: (id: number) => void }) => {
   const [isAtStart, setIsAtStart] = useState(true);
   const [isAtEnd, setIsAtEnd] = useState(false);
@@ -79,4 +55,28 @@ const SwiperWrapper = styled.div`
   position: relative;
   width: 80%;
   margin: auto;
+`;
+
+const NavButton = styled.button<{ position: "left" | "right"; hidden?: boolean }>`
+  position: absolute;
+  top: 50%;
+  ${({ position }) => (position === "left" ? "left: -50px;" : "right: -50px;")}
+  transform: translateY(-50%);
+  background: #6B4F4F;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  z-index: 10;
+  opacity: ${({ hidden }) => (hidden ? 0 : 1)};
+  pointer-events: ${({ hidden }) => (hidden ? "none" : "auto")};
+  transition: opacity 0.4s ease, transform 0.2s ease;
+
+ /* Hover effect for better UI */
+  &:hover {
+    transform: translateY(-50%) scale(1.1);
+    background: #5a3f3f;
+  }
 `;

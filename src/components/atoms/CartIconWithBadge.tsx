@@ -20,6 +20,11 @@ const CartIcon = styled(FaShoppingCart)`
   font-size: 28px;
   color: white;
   margin-top: 3px;
+
+  &:hover {
+    transform: scale(1.2); /* Slightly enlarges */
+    text-shadow: 0 0 8px rgba(255, 209, 102, 0.8);
+  }
 `;
 
 const CartBadge = styled.span<{ animate: boolean }>`

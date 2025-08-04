@@ -20,7 +20,7 @@ export function Header() {
 
   return (
     <HeaderWrapper>
-      <h1>Quick Coffee ☕</h1>
+      <h1>Quick Caffe ☕</h1>
       {/* <QuickCoffeeLogo src="../../../public/images/QuickCoffeeLogo2.png" /> */}
       <NavLinks>
         <Link to="/" title="Menu">
@@ -69,6 +69,11 @@ const MenuIcon = styled(MdRestaurantMenu)`
   // font-size: 28px;
   // color: white;
   margin-bottom: 3px;
+
+  &:hover {
+    transform: scale(1.2); /* Slightly enlarges */
+    text-shadow: 0 0 8px rgba(255, 209, 102, 0.8);
+  }
 `;
 
 // const QuickCoffeeLogo = styled.img`
