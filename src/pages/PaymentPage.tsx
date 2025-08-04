@@ -46,9 +46,13 @@ export default function PaymentPage() {
   };
 
   const confirmPayment = () => {
+    // copy cart data before clearing
+    const orderSummary = [...cart]; 
+    
     localStorage.removeItem("cart");
     setCart([]);
-    navigate("/success");
+
+    navigate("/success", { state: { orderSummary } });
   };
 
   return (
