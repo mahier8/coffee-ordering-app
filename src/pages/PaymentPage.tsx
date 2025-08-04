@@ -1,17 +1,22 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAtom } from "jotai";
 import { cartAtom } from "../store/cartAtoms";
 import { useNavigate } from "react-router-dom";
-import { Layout } from "../components/organisms/Layout";
-import { Button } from "../components/atoms/Button";
 import styled from "@emotion/styled";
 import { FaTrash } from "react-icons/fa";
+
+// components
+import { Layout } from "../components/organisms/Layout";
+import { Button } from "../components/atoms/Button";
+import { ConfirmModal } from "../components/molecules/ConfirmModal";
 
 export default function PaymentPage() {
   const [cart, setCart] = useAtom(cartAtom);
   const navigate = useNavigate();
+  const [modalOpen, setModalOpen] = useState(false);
+  const [itemToRemove, setItemToRemove] = useState<number | null>(null);
 
   // Load cart from localStorage on mount
   useEffect(() => {
@@ -27,8 +32,10 @@ export default function PaymentPage() {
   const subtotal = cart.reduce((sum, item) => sum + item.price * (item.quantity || 1), 0);
   
   const discount = subtotal > 20 ? 5 : 0; // Example: $5 discount if subtotal > $20
+  
   const total = subtotal - discount;
 
+  // increasing/decreasing item quantity
   const increaseQty = (id: number) => {
     setCart(cart.map(item => item.id === id ? { ...item, quantity: item.quantity + 1 } : item));
   };
@@ -41,19 +48,51 @@ export default function PaymentPage() {
     ));
   };
 
+  // item removal
   const removeItem = (id: number) => {
-    setCart(cart.filter(item => item.id !== id));
+    if (cart.length === 1) {
+      // If there's only 1 item, show modal before removing
+      setItemToRemove(id);
+      setModalOpen(true);
+    } else {
+      // Otherwise, remove immediately
+      const updatedCart = cart.filter(item => item.id !== id);
+      setCart(updatedCart);
+    }
   };
 
+  const confirmRemove = () => {
+    if (itemToRemove === null) return;
+
+    const updatedCart = cart.filter(item => item.id !== itemToRemove);
+    setCart(updatedCart);
+
+    setModalOpen(false);
+    setItemToRemove(null);
+
+    if (updatedCart.length === 0) {
+      localStorage.removeItem("cart"); // ✅ completely clear when empty
+      setTimeout(() => navigate("/"), 500); // smoother redirect
+    }
+  };
+
+  const cancelRemove = () => {
+    setModalOpen(false);
+    setItemToRemove(null);
+  };
+
+  // confirming orders
   const confirmPayment = () => {
     // copy cart data before clearing
     const orderSummary = [...cart]; 
-    
+
     localStorage.removeItem("cart");
     setCart([]);
 
     navigate("/success", { state: { orderSummary } });
   };
+
+
 
   return (
     <Layout>
@@ -112,6 +151,13 @@ export default function PaymentPage() {
             <Button onClick={confirmPayment} fullWidth>Confirm Payment</Button>
           </>
         )}
+        <ConfirmModal
+          isOpen={modalOpen}
+          title="Confirm Remove"
+          message="Are you sure you want to remove this item from your cart?"
+          onConfirm={confirmRemove}
+          onCancel={cancelRemove}
+        />
       </PaymentInner>
     </Layout>
   );

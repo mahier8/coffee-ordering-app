@@ -34,7 +34,7 @@ export default function LandingPage() {
         <SaleSwiper items={saleItems} onItemClick={(id) => navigate(`/order/${id}`)} />
 
         {/* ✅ Regular Items */}
-        <h2 style={{ textAlign: "center", margin: "30px 0 15px" }}>Regular Coffees</h2>
+        <h2 style={{ textAlign: "center", margin: "30px 0 15px" }}>Regular</h2>
         <List>
           {regularItems.map((item) => (
             <Card
