@@ -1,8 +1,40 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import { keyframes } from "@emotion/react";
 import { FaShoppingCart } from "react-icons/fa";
 import { useAtomValue } from "jotai";
 import { cartAtom } from "../../store/cartAtoms";
+import { AlertModal } from "../molecules/AlertModal"; 
+
+export function CartIconWithBadge() {
+  const cart = useAtomValue(cartAtom);
+  const navigate = useNavigate();
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const handleCartClick = () => {
+    if (cart.length === 0) {
+      setModalOpen(true); 
+    } else {
+      navigate("/payment");
+    }
+  };
+
+  return (
+    <>
+      <CartWrapper onClick={handleCartClick}>
+        <CartIcon />
+        {cart.length > 0 && <CartBadge animate={true}>{cart.length}</CartBadge>}
+      </CartWrapper>
+
+      <AlertModal
+        isOpen={modalOpen}
+        message="Your cart is empty! Please add items before checking out."
+        onClose={() => setModalOpen(false)}
+      />
+    </>
+  );
+}
 
 // Animation for badge bounce when item added
 const bounce = keyframes`
@@ -43,14 +75,3 @@ const CartBadge = styled.span<{ animate: boolean }>`
   font-weight: bold;
   animation: ${({ animate }) => (animate ? bounce : "none")} 0.4s ease;
 `;
-
-export function CartIconWithBadge() {
-  const cart = useAtomValue(cartAtom);
-
-  return (
-    <CartWrapper>
-      <CartIcon />
-      {cart.length > 0 && <CartBadge animate={true}>{cart.length}</CartBadge>}
-    </CartWrapper>
-  );
-}

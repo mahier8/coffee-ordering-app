@@ -26,10 +26,10 @@ export function Header() {
         <Link to="/" title="Menu">
           <MenuIcon size={28} />
         </Link>
-        <Link to="/payment" title="Cart">
+        {/* <Link to="/payment" title="Cart"> */}
         {/* Cart({cart.length}) */}
           <CartIconWithBadge />
-        </Link>
+        {/* </Link> */}
       </NavLinks>
     </HeaderWrapper>
   );
