@@ -20,7 +20,7 @@ export function Header() {
 
   return (
     <HeaderWrapper>
-      <h1>Quick Caffe ☕</h1>
+      <h1>Caffè le Quick ☕</h1>
       {/* <QuickCoffeeLogo src="../../../public/images/QuickCoffeeLogo2.png" /> */}
       <NavLinks>
         <Link to="/" title="Menu">

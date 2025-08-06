@@ -15,6 +15,7 @@ export function CartIconWithBadge() {
   const handleCartClick = () => {
     if (cart.length === 0) {
       setModalOpen(true); 
+      setTimeout(() => setModalOpen(false), 2000);
     } else {
       navigate("/payment");
     }
