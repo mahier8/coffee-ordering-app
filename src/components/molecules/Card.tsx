@@ -39,6 +39,14 @@ const CardWrapper = styled.div<{ variant: "swiper" | "list"; isSale?: boolean }>
   transition: transform 0.3s;
   &:hover { transform: translateY(-4px); }
 
+  ${({ variant }) =>
+  variant === "swiper" &&
+  `
+    @media (max-width: 390px) {
+      height: 280px;
+    }
+  `}  
+
   /* Sale badge positioning */
   ${({ isSale }) =>
     isSale &&

@@ -69,10 +69,12 @@ export default function OrderConfirmationPage() {
         <Content>
           <h4>Confirm Your Order</h4>
           <h2>{item.name} - ${item.price}</h2>
-          <img src={`/images/${item.image}`} alt="" />
-            <DescriptionText>
-              {item.description}
-            </DescriptionText>
+          <ImageContainer>
+            <StyledImage src={`/images/${item.image}`} alt={item.name} />
+          </ImageContainer>
+          <DescriptionText>
+            {item.description}
+          </DescriptionText>
         </Content>
         <ButtonWrapper>
           <Button onClick={confirmOrder} fullWidth>Confirm Order</Button>
@@ -135,4 +137,21 @@ const DescriptionText = styled.p`
   margin: 20px auto;
   max-width: 90%;
   font-style: italic;
+`;
+
+const ImageContainer = styled.div`
+  width: 200px;         /* fixed width */
+  height: 140px;        /* match Cappuccino height */
+  margin: 20px auto;    /* center horizontally */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;     /* hide overflow if image is larger */
+  border-radius: ${({ theme }) => theme.borderRadius}; /* optional for rounded corners */
+`;
+
+const StyledImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* ensures image fills container while cropping overflow */
 `;
