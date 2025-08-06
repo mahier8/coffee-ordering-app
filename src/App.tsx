@@ -1,6 +1,7 @@
 import { Suspense, lazy } from "react";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
+import { Spinner } from "./components/molecules/Spinner";
 
 const Landing = lazy(() => import("./pages/LandingPage"));
 const Confirm = lazy(() => import("./pages/OrderConfirmationPage"));
@@ -24,7 +25,7 @@ function AnimatedRoutes() {
 export default function App() {
   return (
     <Router>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Spinner />}>
         <AnimatedRoutes />
       </Suspense>
     </Router>
